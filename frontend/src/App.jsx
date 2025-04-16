@@ -105,20 +105,34 @@ function App() {
         )}
 
         {recipe && (
-          <div className="mt-8 space-y-6">
-            <h2 className="text-2xl font-bold text-redbull text-center">
-              {recipe.cuisine_name}
-            </h2>
-            
+          <div className="mt-8">
             <div className="bg-gray-800 rounded-lg p-6 space-y-4">
-              <h3 className="text-xl font-semibold text-gray-300">Cooking Steps:</h3>
-              <ol className="space-y-3">
-                {recipe.steps.map((step, index) => (
-                  <li key={index} className="text-gray-300">
-                    {step}
-                  </li>
-                ))}
-              </ol>
+              <h2 className="text-2xl font-bold text-redbull">
+                {recipe.cuisine_name}
+              </h2>
+              <div className="space-y-3">
+                <h3 className="text-xl font-semibold text-gray-300">Cooking Steps:</h3>
+                <ol className="space-y-3">
+                  {recipe.steps.map((step, index) => (
+                    <li key={index} className="text-gray-300">
+                      {step}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              {recipe.suggested_ingredients && recipe.suggested_ingredients.length > 0 && (
+                <div className="mt-6 pt-4 border-t border-gray-700">
+                  <h3 className="text-xl font-semibold text-gray-300 mb-3">Level Up Your Dish:</h3>
+                  <ul className="space-y-2">
+                    {recipe.suggested_ingredients.map((suggestion, index) => (
+                      <li key={index} className="text-gray-300 flex items-start">
+                        <span className="text-redbull mr-2">•</span>
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         )}
