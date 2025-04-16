@@ -6,6 +6,8 @@ import json
 import os
 import logging
 from dotenv import load_dotenv
+import redis
+import hashlib
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -24,6 +26,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Initialize Redis client
+logger.info("Initializing Redis client...")
+redis_client = redis.Redis(
+    host='redis',
+    port=6379,
+    db=0,
+    decode_responses=True
+)
+logger.info("Redis client initialized successfully")
 
 # Initialize Bedrock client
 logger.info("Initializing Bedrock client...")
@@ -55,10 +67,29 @@ Respond in JSON format:
   ]
 }}"""
 
+def generate_cache_key(ingredients: list[str]) -> str:
+    """Generate a unique cache key for the ingredients list."""
+    ingredients_str = ','.join(sorted(ingredients))
+    temp = hashlib.md5(ingredients_str.encode()).hexdigest()
+    print(temp)
+    logger.error("Temp vallue"+temp)
+    return temp
+
 @app.post("/generate-recipe")
 async def generate_recipe(request: RecipeRequest):
     try:
         logger.info(f"Received recipe request with ingredients: {request.ingredients}")
+        
+        # Generate cache key
+        cache_key = generate_cache_key(request.ingredients)
+        
+        # Check Redis cache
+        cached_recipe = redis_client.get(cache_key)
+        if cached_recipe:
+            logger.info("Recipe found in cache")
+            return json.loads(cached_recipe)
+        
+        logger.info("Recipe not found in cache, generating new recipe")
         prompt = create_prompt(request.ingredients)
         logger.info("Created prompt successfully")
         
@@ -92,6 +123,15 @@ async def generate_recipe(request: RecipeRequest):
         try:
             # Try to parse the completion as JSON
             recipe_data = json.loads(completion)
+            
+            # Cache the recipe for 24 hours
+            redis_client.setex(
+                cache_key,
+                86400,  # 24 hours in seconds
+                json.dumps(recipe_data)
+            )
+            logger.info("Recipe cached successfully")
+            
             return recipe_data
         except json.JSONDecodeError:
             # If parsing fails, return the raw completion
