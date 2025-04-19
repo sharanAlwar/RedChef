@@ -29,9 +29,10 @@ function App() {
     
     setLoading(true)
     setError(null)
-
+    let host = process.env.VITE_BACKEND_URL
+    console.log(host)
     try {
-      const response = await axios.post('http://localhost:8000/generate-recipe', {
+      const response = await axios.post(`${host}:8000/generate-recipe`, {
         ingredients: ingredients
       })
       setRecipe(response.data)

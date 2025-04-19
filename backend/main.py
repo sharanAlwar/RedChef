@@ -32,10 +32,13 @@ app.add_middleware(
 
 # Initialize Redis client
 logger.info("Initializing Redis client...")
+redis_host = os.getenv('REDIS_HOST', 'redis-service.default.svc.cluster.local','')  # Update this to your service name
+redis_port = int(os.getenv('REDIS_PORT', 6379))
 try:
+
     redis_client = redis.Redis(
-        host='redis',  # Use the service name from docker-compose
-        port=6379,
+        host=redis_host,
+        port=redis_port,
         db=0,
         decode_responses=True
     )

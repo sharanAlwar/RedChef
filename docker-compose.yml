@@ -13,6 +13,7 @@ services:
       - ./backend:/app
     depends_on:
       - redis
+    restart: unless-stopped
 
   frontend:
     build:
@@ -25,6 +26,7 @@ services:
       - /app/node_modules
     environment:
       - VITE_API_URL=http://localhost:8000
+    restart: unless-stopped
 
   redis:
     image: redis:alpine
@@ -32,6 +34,7 @@ services:
       - "6379:6379"
     volumes:
       - redis-data:/data
+    restart: unless-stopped
 
 volumes:
   redis-data: 
