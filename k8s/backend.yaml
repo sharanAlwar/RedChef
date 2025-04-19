@@ -17,12 +17,12 @@ spec:
     spec:
       containers:
         - name: backend
-          image: your-registry/backend:latest
+          image: sharanalwar/redchef-backend:latest
           ports:
             - containerPort: 8000
           envFrom:
             - configMapRef:
-                name: backend-config  # Reference the ConfigMap for the backend
+                name: backend-config  
 ---
 apiVersion: v1
 kind: Service

@@ -17,12 +17,12 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: your-registry/frontend:latest
+          image: sharanalwar/redchef-frontend:latest
           ports:
             - containerPort: 5173
           envFrom:
             - configMapRef:
-                name: frontend-config  # Reference the ConfigMap for the frontend
+                name: frontend-config  
 ---
 apiVersion: v1
 kind: Service
