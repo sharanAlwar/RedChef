@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  helm-redchef:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-04-22T21:50:32.163360336Z"
+    description: A Helm chart for deploying the RedChef application
+    digest: ccaa5282f99759a0f0c0b214c660501e1b7accbd40ce14596f4dd40b16d9b56d
+    name: helm-redchef
+    type: application
+    urls:
+    - https://sharanalwar.github.io/RedChef/stable/helm-redchef-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-04-22T21:50:32.162934786Z"
