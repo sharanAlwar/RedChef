@@ -1,11 +1,13 @@
+namespace: redchef
+
 frontendConfig:
-  VITE_BACKEND_URL: "http://backend.dev.svc.cluster.local:8000"
+  VITE_BACKEND_URL: "http://backend.redchef.svc.cluster.local:8000"
 
 backendConfig:
   AWS_ACCESS_KEY_ID: "" 
   AWS_SECRET_ACCESS_KEY: "" 
   AWS_REGION: "" 
-  REDIS_HOST: "redis-service.dev.svc.cluster.local" 
+  REDIS_HOST: "redis-service.redchef.svc.cluster.local" 
 
 
 # # Default values for helm-redchef.

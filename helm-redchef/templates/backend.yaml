@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend-deploy
-  namespace: dev
+  namespace: {{ .Values.namespace }}
   labels:
     app: backend
 spec:
@@ -28,7 +28,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: backend
-  namespace: dev
+  namespace: {{ .Values.namespace }}
 spec:
   type: LoadBalancer
   selector:
